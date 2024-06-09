@@ -9,13 +9,15 @@ public class Wyzard : Character
     [SerializeField] private Projectile             shotPrefab;
     [SerializeField] private Projectile             shotPrefabNetwork;
     [SerializeField] private Transform              shootPoint;
-    [SerializeField] private ParticleSystem         manaCountUpPS;
+    [SerializeField] private float                  manaRegenRate = 1.0f;
 
     float   cooldownTimer;
     NetworkVariable<int>    _mana = new(3);
-    NetworkVariable<int>    _maxMana = new(10);
-    public int mana => _mana.Value;
-    public int maxMana => _maxMana.Value;
+    NetworkVariable<float>    _phantomMana = new(3);
+    NetworkVariable<float>    _maxMana = new(10);
+    public float mana => _mana.Value;
+    public float phantomMana => _phantomMana.Value;
+    public float maxMana => _maxMana.Value;
 
 
     protected override void Start()
@@ -87,6 +89,9 @@ public class Wyzard : Character
         }
 
         UpdateAnimation();
+
+
+        AddMana(manaRegenRate / _maxMana.Value * NetworkManager.Singleton.ServerTime.FixedDeltaTime);
     }
 
     protected void Shoot(Vector3 pos, Quaternion rotation)
@@ -122,8 +127,9 @@ public class Wyzard : Character
     }
 
 
-    public void AddMana(int ammount)
+    public void AddMana(float amount)
     {
-        _mana.Value += ammount;
+        _phantomMana.Value = Mathf.Clamp(_phantomMana.Value + amount, 0f, maxMana);
+        _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
     }
 }

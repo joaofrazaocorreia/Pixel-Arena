@@ -9,13 +9,9 @@ public class ManaDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI    manaCountText;
     [SerializeField] private Image              manaBarFill;
+    [SerializeField] private Image              manaPhantomFill;
 
     Wyzard localPlayer;
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
@@ -37,8 +33,11 @@ public class ManaDisplay : MonoBehaviour
         {
             manaCountText.text = $"{localPlayer.mana}";
 
-            float p = (float)localPlayer.mana / (float)localPlayer.maxMana;
-            manaBarFill.transform.localScale = new Vector3(p, 1.0f, 1.0f);
+            float p = (float)localPlayer.phantomMana / (float)localPlayer.maxMana;
+            manaPhantomFill.transform.localScale = new Vector3(p, 1.0f, 1.0f);
+
+            float m = (float)localPlayer.mana / (float)localPlayer.maxMana;
+            manaBarFill.transform.localScale = new Vector3(m, 1.0f, 1.0f);
         }
     }
 }
