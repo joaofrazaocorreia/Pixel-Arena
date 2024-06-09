@@ -2,28 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private int   minPlayers = 2;
     [SerializeField] private float timeForFirstSpawn = 2;
-    [SerializeField] private float spawnInterval = 10;
+    [SerializeField] private float spawnInterval = 30;
+    [SerializeField] private float incrementInterval = 2;
+    [SerializeField] private int increments = 2;
     [SerializeField] private int   spawnCount = 5;
     [SerializeField] private Enemy[] enemyPrefabs;
+    [SerializeField] private Enemy[] REDPrefabs;
+    [SerializeField] private Transform REDSpawn;
+    [SerializeField] private Enemy[] BLUEPrefabs;
+    [SerializeField] private Transform BLUESpawn;
+    [SerializeField] private float spawnCost = 1f;              
 
     private float          spawnTimer;
+    private float          incrementCounter;
     private NetworkManager networkManager;
     public int            currentPlayers => networkManager.ConnectedClients.Count;
+    
+    PlayerTower localPlayer;
 
     void Start()
     {
         networkManager = FindObjectOfType<NetworkManager>();
         spawnTimer = timeForFirstSpawn;
+        incrementCounter = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (localPlayer == null)
+        {
+            var players = FindObjectsOfType<PlayerTower>();
+            
+            foreach(PlayerTower p in players)
+            {
+                if (p.IsLocalPlayer)
+                {
+                    localPlayer = p;
+                    break;
+                }
+            }
+        }
+
         if (networkManager.IsServer || networkManager.IsHost)
         {
             if (currentPlayers >= minPlayers)
@@ -31,7 +58,7 @@ public class Spawner : MonoBehaviour
                 spawnTimer -= Time.deltaTime;
                 if (spawnTimer <= 0.0f)
                 {
-                    Spawn();
+                    SpawnWild();
                     spawnTimer = spawnInterval;
                 }
             }
@@ -47,29 +74,12 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void Spawn()
+    void SpawnWild()
     {
-        // Get all players
-        var PlayerTowers = FindObjectsOfType<PlayerTower>();
-        if (PlayerTowers.Length == 0) return;
-
-        float xMin = PlayerTowers[0].transform.position.x;
-        float yMin = PlayerTowers[0].transform.position.y;
-        float xMax = xMin;
-        float yMax = yMin;
-
-        foreach (var PlayerTower in PlayerTowers)
-        {
-            xMin = Mathf.Min(xMin, PlayerTower.transform.position.x);
-            xMax = Mathf.Max(xMax, PlayerTower.transform.position.x);
-            yMin = Mathf.Min(yMin, PlayerTower.transform.position.y);
-            yMax = Mathf.Max(yMax, PlayerTower.transform.position.y);
-        }
-
         for (int i = 0; i < spawnCount; i++)
         {
-            float x = Random.Range(xMin - 20, xMax + 20);
-            float y = Random.Range(yMin - 20, yMax + 20);
+            float x = UnityEngine.Random.Range(-50, 50);
+            float y = Random.Range(100, 250);
 
             Enemy chosenEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
@@ -77,6 +87,48 @@ public class Spawner : MonoBehaviour
             var networkObject = newEnemy.GetComponent<NetworkObject>();
 
             networkObject.Spawn();
+        }
+
+        if(++incrementCounter % incrementInterval == 0)
+        {
+            spawnCount += increments;
+        }
+    }
+
+    private void SpawnRed(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            Enemy chosenEnemy = REDPrefabs[Random.Range(0, REDPrefabs.Length)];
+
+            var newEnemy = Instantiate(chosenEnemy, REDSpawn.position, Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+    }
+
+    private void SpawnBlue(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            Enemy chosenEnemy = BLUEPrefabs[Random.Range(0, BLUEPrefabs.Length)];
+
+            var newEnemy = Instantiate(chosenEnemy, BLUESpawn.position, Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+    }
+
+    public void SpawnTeamEnemy()
+    {
+        if (localPlayer.mana >= spawnCost)
+        {
+            if (localPlayer.faction == Faction.Blue) SpawnBlue(1);
+            if (localPlayer.faction == Faction.Red) SpawnRed(1);
+
+            localPlayer.RemoveMana(spawnCost);
         }
     }
 }

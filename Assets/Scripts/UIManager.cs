@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject     loseScreen;
     [SerializeField] GameObject     waitingScreen;
     [SerializeField] GameObject     endBG;
+    [SerializeField] private GameObject buffButton1;
+    [SerializeField] private GameObject buffButton2;
     
     PlayerTower localPlayer;
     bool win = false;
@@ -36,6 +39,26 @@ public class UIManager : MonoBehaviour
         loseScreen.SetActive(true);
 
         Time.timeScale = 0;
+    }
+
+    void Start()
+    {
+        var players = FindObjectsOfType<PlayerTower>();
+
+        if (localPlayer == null)
+        {
+            foreach(PlayerTower p in players)
+            {
+                if (p.IsLocalPlayer)
+                {
+                    localPlayer = p;
+                    break;
+                }
+            }
+        }
+
+        buffButton1.GetComponent<Button>().clicked += localPlayer.UpgradeAttack;
+        buffButton2.GetComponent<Button>().clicked += localPlayer.UpgradeSpeed;
     }
 
     void Update()

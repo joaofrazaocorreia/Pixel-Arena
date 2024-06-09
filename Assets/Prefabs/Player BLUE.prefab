@@ -722,6 +722,8 @@ MonoBehaviour:
   shootPoint: {fileID: 5459142682877947198}
   manaRegenRate: 0.75
   range: 100
+  attackUPGcost: 3
+  speedUPGcost: 3
 --- !u!95 &1753974534352905675
 Animator:
   serializedVersion: 5

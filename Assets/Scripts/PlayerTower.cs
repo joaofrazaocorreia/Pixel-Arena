@@ -1,6 +1,7 @@
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerTower : Character
 {
@@ -12,6 +13,8 @@ public class PlayerTower : Character
     [SerializeField] private Transform              shootPoint;
     [SerializeField] private float                  manaRegenRate = 1.0f;
     [SerializeField] private float                  range = 100.0f;
+    [SerializeField] private float                  attackUPGcost = 3f;   
+    [SerializeField] private float                  speedUPGcost = 3f;  
 
     float   cooldownTimer;
     NetworkVariable<int>      _mana = new(3);
@@ -128,5 +131,21 @@ public class PlayerTower : Character
     {
         _phantomMana.Value = Mathf.Clamp(_phantomMana.Value - amount, 0f, maxMana);
         _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
+    }
+
+    public void UpgradeAttack()
+    {
+        if(IsLocalPlayer && mana >= attackUPGcost)
+            damage *= 1.15f;
+
+        _mana.Value -= (int) attackUPGcost;
+    }
+
+    public void UpgradeSpeed()
+    {
+        if(IsLocalPlayer && mana >= speedUPGcost)
+            cooldown *= 0.85f;
+
+        _mana.Value -= (int) speedUPGcost;
     }
 }
