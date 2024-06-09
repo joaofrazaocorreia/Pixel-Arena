@@ -11,15 +11,15 @@ public class ManaDisplay : MonoBehaviour
     [SerializeField] private Image              manaBarFill;
     [SerializeField] private Image              manaPhantomFill;
 
-    Wyzard localPlayer;
+    PlayerTower localPlayer;
 
     void Update()
     {
         if (localPlayer == null)
         {
-            var players = FindObjectsOfType<Wyzard>();
+            var players = FindObjectsOfType<PlayerTower>();
             
-            foreach(Wyzard p in players)
+            foreach(PlayerTower p in players)
             {
                 if (p.IsLocalPlayer)
                 {

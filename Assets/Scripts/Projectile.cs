@@ -9,7 +9,7 @@ public class Projectile : NetworkBehaviour
     public Faction  faction;
     public float    speed = 200.0f;
     public float    damage = 100.0f;
-    public float    duration = 5.0f;
+    public float    duration = 0.5f;
 
     public float shotTime = 0;
     public Vector3 origin;
@@ -18,7 +18,6 @@ public class Projectile : NetworkBehaviour
     public ulong playerId;
     
     private Vector3     prevPos;
-    private Projectile  linkedShot = null;
 
     private void Start()
     {

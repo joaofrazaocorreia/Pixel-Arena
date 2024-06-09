@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using TMPro;
 
 public class HealthSystem : NetworkBehaviour
 {
     [SerializeField] Faction        _faction;
-    [SerializeField] float          maxHealth = 100.0f;
-    [SerializeField] GameObject     healthDisplay;
-    [SerializeField] Image          fill;
-    [SerializeField] GameObject[]   loot;
-    [SerializeField] Color          flashColor = Color.white;
+    [SerializeField] float           maxHealth = 100.0f;
+    [SerializeField] GameObject      healthDisplay;
+    [SerializeField] Image           fill;
+    [SerializeField] TextMeshProUGUI healthText;
+    [SerializeField] Color           flashColor = Color.white;
 
 
-    private NetworkVariable<float>  health = new(1);
+    private NetworkVariable<float>  health = new(100);
     private Flasher                 flasher;
 
     public bool isDead => health.Value <= 0.0f;
@@ -29,6 +30,9 @@ public class HealthSystem : NetworkBehaviour
             health.Value = maxHealth;
         
         health.OnValueChanged += RunDisplay;
+
+        if (healthText)
+            healthText.text = $"{health.Value} / {maxHealth}";
     }
 
     void Update()
@@ -42,6 +46,7 @@ public class HealthSystem : NetworkBehaviour
         if (flasher) flasher.Flash(flashColor, 0.2f);
 
         float p = Mathf.Clamp01(newValue / maxHealth);
+
         if (fill)
         {
             fill.transform.localScale = new Vector3(p, 1.0f, 1.0f);
@@ -51,6 +56,9 @@ public class HealthSystem : NetworkBehaviour
         {
             if(p <= 0.0f)
                 fill.gameObject.SetActive(false);
+                
+            if (healthText)
+                healthText.text = $"{health.Value} / {maxHealth}";
         }
     }
 
@@ -62,16 +70,7 @@ public class HealthSystem : NetworkBehaviour
 
         RunDisplay(oldValue, health.Value);
 
-        if (isDead)
-        {
-            if (loot.Length > 0)
-            {
-                var drop = loot[Random.Range(0, loot.Length)];
-
-                Instantiate(drop, transform.position, Quaternion.identity);
-            }
-
-            if (onDeath != null) onDeath();
-        }
+        if (isDead && onDeath != null)
+            onDeath();
     }
 }

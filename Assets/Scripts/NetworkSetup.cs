@@ -23,7 +23,7 @@ public class NetworkSetup : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI visualDebug;
     [SerializeField] private bool debug = true;
-    [SerializeField] private Wyzard[] playerPrefabs;
+    [SerializeField] private PlayerTower[] playerPrefabs;
     [SerializeField] private Transform[] playerSpawnLocations;
     [SerializeField] private ulong playerLimit = 2;
     private bool isServer = false;
@@ -57,7 +57,7 @@ public class NetworkSetup : MonoBehaviour
 
     IEnumerator StartAsServerCR()
     {
-        SetWindowTitle("MPWyzards - Server");
+        SetWindowTitle("Pixel Arena - Server");
 
 
         var networkManager = GetComponent<NetworkManager>();
@@ -95,7 +95,7 @@ public class NetworkSetup : MonoBehaviour
         {
             // Check a free spot for this player
             var spawnPos = Vector3.zero;
-            var currentPlayers = FindObjectsOfType<Wyzard>();
+            var currentPlayers = FindObjectsOfType<PlayerTower>();
 
             foreach (Transform playerSpawnLocation in playerSpawnLocations)
             {
@@ -133,7 +133,7 @@ public class NetworkSetup : MonoBehaviour
 
     IEnumerator StartAsClientCR()
     {
-        SetWindowTitle("MPWyzards - Client");
+        SetWindowTitle("Pixel Arena - Client");
 
         var networkManager = GetComponent<NetworkManager>();
         networkManager.enabled = true;
@@ -209,7 +209,7 @@ public class NetworkSetup : MonoBehaviour
             .Where(s => s.enabled)
             .Select(s => s.path)
             .ToArray();
-        buildPlayerOptions.locationPathName = Path.Combine("Builds", "MPWyzard.exe");
+        buildPlayerOptions.locationPathName = Path.Combine("Builds", "Pixel Arena.exe");
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
         buildPlayerOptions.options = BuildOptions.None;
         // Perform the build
@@ -259,32 +259,32 @@ public class NetworkSetup : MonoBehaviour
     [MenuItem("Tools/Launch (Server) _F11", priority = 30)]
     public static void Launch1()
     {
-        Run("Builds\\MPWyzard.exe", "--server");
+        Run("Builds\\Pixel Arena.exe", "--server");
     }
     [MenuItem("Tools/Launch (Client) _F10", priority = 30)]
     public static void Launch2()
     {
-        Run("Builds\\MPWyzard.exe", "");
+        Run("Builds\\Pixel Arena.exe", "");
     }
     [MenuItem("Tools/Launch (Server + Client)", priority = 40)]
     public static void Launch3()
     {
-        Run("Builds\\MPWyzard.exe", "");
-        Run("Builds\\MPWyzard.exe", "--server");
+        Run("Builds\\Pixel Arena.exe", "");
+        Run("Builds\\Pixel Arena.exe", "--server");
     }
     [MenuItem("Tools/Launch (Server + Client + Client)", priority = 40)]
     public static void Launch4()
     {
-        Run("Builds\\MPWyzard.exe", "");
-        Run("Builds\\MPWyzard.exe", "");
-        Run("Builds\\MPWyzard.exe", "--server");
+        Run("Builds\\Pixel Arena.exe", "");
+        Run("Builds\\Pixel Arena.exe", "");
+        Run("Builds\\Pixel Arena.exe", "--server");
     }
 
     [MenuItem("Tools/Close All", priority = 100)]
     public static void CloseAll()
     {
         // Get all processes with the specified name
-        Process[] processes = Process.GetProcessesByName("MPWyzard");
+        Process[] processes = Process.GetProcessesByName("Pixel Arena");
         foreach (var process in processes)
         {
             try

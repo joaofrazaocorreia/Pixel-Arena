@@ -1,2 +1,2 @@
 
-public enum Faction { Player, Enemy };
+public enum Faction { Blue, Red };

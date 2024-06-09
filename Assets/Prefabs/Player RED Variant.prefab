@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3356566507629095052, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
+      propertyPath: faction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 736994844977823100, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -18,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 22100000, guid: 3fd571dc281c2544db5c261a17486aca, type: 2}
     - target: {fileID: 2677831010101155184, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2194132927
+      value: 588515839
       objectReference: {fileID: 0}
     - target: {fileID: 2747949760421723907, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2747949760421723907, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2747949760421723907, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_LocalRotation.x
@@ -46,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2747949760421723907, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2747949760421723907, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2747949760421723907, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4611974215207554808, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_Color.b
@@ -76,9 +80,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: armB
       objectReference: {fileID: 0}
+    - target: {fileID: 7028653210196805844, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028653210196805844, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8053264972973658697, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_Name
-      value: Player 2 Variant
+      value: Player RED Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8369272184252670689, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_Color.b

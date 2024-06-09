@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float timeForFirstSpawn = 2;
     [SerializeField] private float spawnInterval = 10;
     [SerializeField] private int   spawnCount = 5;
-    [SerializeField] private Enemy enemyPrefab;
+    [SerializeField] private Enemy[] enemyPrefabs;
 
     private float          spawnTimer;
     private NetworkManager networkManager;
@@ -50,20 +50,20 @@ public class Spawner : MonoBehaviour
     void Spawn()
     {
         // Get all players
-        var wyzards = FindObjectsOfType<Wyzard>();
-        if (wyzards.Length == 0) return;
+        var PlayerTowers = FindObjectsOfType<PlayerTower>();
+        if (PlayerTowers.Length == 0) return;
 
-        float xMin = wyzards[0].transform.position.x;
-        float yMin = wyzards[0].transform.position.y;
+        float xMin = PlayerTowers[0].transform.position.x;
+        float yMin = PlayerTowers[0].transform.position.y;
         float xMax = xMin;
         float yMax = yMin;
 
-        foreach (var wyzard in wyzards)
+        foreach (var PlayerTower in PlayerTowers)
         {
-            xMin = Mathf.Min(xMin, wyzard.transform.position.x);
-            xMax = Mathf.Max(xMax, wyzard.transform.position.x);
-            yMin = Mathf.Min(yMin, wyzard.transform.position.y);
-            yMax = Mathf.Max(yMax, wyzard.transform.position.y);
+            xMin = Mathf.Min(xMin, PlayerTower.transform.position.x);
+            xMax = Mathf.Max(xMax, PlayerTower.transform.position.x);
+            yMin = Mathf.Min(yMin, PlayerTower.transform.position.y);
+            yMax = Mathf.Max(yMax, PlayerTower.transform.position.y);
         }
 
         for (int i = 0; i < spawnCount; i++)
@@ -71,7 +71,9 @@ public class Spawner : MonoBehaviour
             float x = Random.Range(xMin - 20, xMax + 20);
             float y = Random.Range(yMin - 20, yMax + 20);
 
-            var newEnemy = Instantiate(enemyPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            Enemy chosenEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+
+            var newEnemy = Instantiate(chosenEnemy, new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
 
             networkObject.Spawn();

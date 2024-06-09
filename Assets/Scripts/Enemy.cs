@@ -6,7 +6,8 @@ using UnityEngine;
 public class Enemy : Character
 {
     [SerializeField] float cooldown = 0.5f;
-    [SerializeField] float damage = 5.0f;
+    [SerializeField] float damage = 200.0f;
+    [SerializeField] float range = 15.0f;
 
     float cooldownTimer;
 
@@ -34,36 +35,52 @@ public class Enemy : Character
 
     void Think()
     {
-        var wyzards = FindObjectsByType<Wyzard>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        Wyzard closestWyzard = null;
+        var PlayerTowers = FindObjectsByType<PlayerTower>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        var Enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
         float minDist = float.MaxValue;
+        Character closestTarget = null;
+        
 
         // Find closest
-        foreach (var wyzard in wyzards)
+        foreach (var PlayerTower in PlayerTowers)
         {
-            if (wyzard.isDead) continue;
+            if (PlayerTower.isDead || PlayerTower.faction == faction) continue;
 
-            float dist = Vector3.Distance(transform.position, wyzard.transform.position);
+            float dist = Vector3.Distance(transform.position, PlayerTower.transform.position);
             if (dist < minDist)
             {
                 minDist = dist;
-                closestWyzard = wyzard;
+                closestTarget = PlayerTower;
+            }
+        }
+        
+        foreach (var Enemy in Enemies)
+        {
+            if (Enemy.isDead || Enemy.faction == faction) continue;
+
+            float dist = Vector3.Distance(transform.position, Enemy.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closestTarget = Enemy;
             }
         }
 
-        if (closestWyzard == null)
+        if (closestTarget == null)
         {
             return;
         }
 
-        if (minDist > 15)
+        if (minDist > range)
         {
-            Vector3 dir = (closestWyzard.transform.position - transform.position).normalized;
+            Vector3 dir = (closestTarget.transform.position - transform.position).normalized;
 
             Vector3 moveVector = dir * speed;
 
             transform.Translate(moveVector * Time.deltaTime, Space.World);
         }
+
         else
         {
             cooldownTimer -= Time.deltaTime;
@@ -71,7 +88,7 @@ public class Enemy : Character
             {
                 cooldownTimer = cooldown;
 
-                closestWyzard.DealDamage(damage);
+                closestTarget.DealDamage(damage);
             }
         }
     }

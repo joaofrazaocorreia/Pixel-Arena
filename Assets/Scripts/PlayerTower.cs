@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Wyzard : Character
+public class PlayerTower : Character
 {
     [SerializeField] private Transform              arm;
     [SerializeField] private float                  cooldown = 0.25f;
@@ -10,9 +10,10 @@ public class Wyzard : Character
     [SerializeField] private Projectile             shotPrefabNetwork;
     [SerializeField] private Transform              shootPoint;
     [SerializeField] private float                  manaRegenRate = 1.0f;
+    [SerializeField] private float                  range = 100.0f;
 
     float   cooldownTimer;
-    NetworkVariable<int>    _mana = new(3);
+    NetworkVariable<int>      _mana = new(3);
     NetworkVariable<float>    _phantomMana = new(3);
     NetworkVariable<float>    _maxMana = new(10);
     public float mana => _mana.Value;
@@ -39,25 +40,14 @@ public class Wyzard : Character
             return;
         }
 
-        if (networkObject.IsLocalPlayer)
-        {
-            Vector3 moveDir = Vector3.zero;
-            moveDir.x = speed * Input.GetAxis("Horizontal");
-            moveDir.y = speed * Input.GetAxis("Vertical");
-
-            moveDir *= Time.deltaTime;
-
-            transform.Translate(moveDir, Space.World);
-        }
-
         var enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         Enemy closestEnemy = null;
-        float minDist = float.MaxValue;
+        float minDist = range;
 
         // Find closest
         foreach (var enemy in enemies)
         {
-            if (enemy.isDead) continue;
+            if (enemy.isDead || enemy.faction == faction) continue;
 
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
             if (dist < minDist)
@@ -130,6 +120,12 @@ public class Wyzard : Character
     public void AddMana(float amount)
     {
         _phantomMana.Value = Mathf.Clamp(_phantomMana.Value + amount, 0f, maxMana);
+        _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
+    }
+
+    public void RemoveMana(float amount)
+    {
+        _phantomMana.Value = Mathf.Clamp(_phantomMana.Value - amount, 0f, maxMana);
         _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
     }
 }

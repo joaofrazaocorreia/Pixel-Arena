@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3902197222543030363}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &7316107261787151782
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -291,14 +291,8 @@ MonoBehaviour:
   speed: 200
   damage: 25
   duration: 1
+  shotTime: 0
+  origin: {x: 0, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 0}
   projectileId: -1
   playerId: 0
-  localShotTime: 0
-  localOrigin: {x: 0, y: 0, z: 0}
-  localDirection: {x: 0, y: 0, z: 0}
-  shotTime:
-    m_InternalValue: 0
-  origin:
-    m_InternalValue: {x: 0, y: 0, z: 0}
-  direction:
-    m_InternalValue: {x: 0, y: 0, z: 0}
