@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -26,11 +25,15 @@ public class NetworkSetup : MonoBehaviour
     [SerializeField] private PlayerTower[] playerPrefabs;
     [SerializeField] private Transform[] playerSpawnLocations;
     [SerializeField] private ulong playerLimit = 2;
+    [SerializeField] private UIManager uiManager;
     private bool isServer = false;
     private int playerPrefabIndex = 0;
 
     IEnumerator Start()
     {
+        if (debug) visualDebug.text += "Debug: \n";
+
+
         // Parse command line arguments
         string[] args = System.Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length; i++)

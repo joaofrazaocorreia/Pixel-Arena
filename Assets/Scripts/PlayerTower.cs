@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -80,8 +81,8 @@ public class PlayerTower : Character
 
         UpdateAnimation();
 
-
-        AddMana(manaRegenRate / _maxMana.Value * NetworkManager.Singleton.ServerTime.FixedDeltaTime);
+        if(FindObjectsOfType<PlayerTower>().Count() >= 2)
+            AddMana(manaRegenRate / _maxMana.Value * NetworkManager.Singleton.ServerTime.FixedDeltaTime);
     }
 
     protected void Shoot(Vector3 pos, Quaternion rotation)

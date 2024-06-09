@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
 
     private float          spawnTimer;
     private NetworkManager networkManager;
-    private int            currentPlayers => networkManager.ConnectedClients.Count;
+    public int            currentPlayers => networkManager.ConnectedClients.Count;
 
     void Start()
     {
