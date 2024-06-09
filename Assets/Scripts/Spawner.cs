@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
@@ -78,7 +75,7 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            float x = UnityEngine.Random.Range(-50, 50);
+            float x = Random.Range(-50, 50);
             float y = Random.Range(100, 250);
 
             Enemy chosenEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];

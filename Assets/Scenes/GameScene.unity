@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualDebug: {fileID: 2092722430}
-  debug: 1
+  debug: 0
   playerPrefabs:
   - {fileID: -3356566507629095052, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
   - {fileID: 1522319655309799177, guid: e448ccff0a7e72848a1d179b6d8ff6c2, type: 3}
@@ -914,9 +914,9 @@ RectTransform:
   - {fileID: 2092722429}
   - {fileID: 331689292}
   - {fileID: 2060761467}
-  - {fileID: 1731515872}
   - {fileID: 1702314548}
   - {fileID: 1994871332}
+  - {fileID: 1731515872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3255,7 +3255,7 @@ GameObject:
   - component: {fileID: 491998530}
   - component: {fileID: 491998529}
   m_Layer: 5
-  m_Name: Button2
+  m_Name: StrengthButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4480,7 +4480,7 @@ GameObject:
   - component: {fileID: 878588248}
   - component: {fileID: 878588247}
   m_Layer: 5
-  m_Name: Button3
+  m_Name: SpeedButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7185,10 +7185,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minPlayers: 2
   timeForFirstSpawn: 2
-  spawnInterval: 30
-  incrementInterval: 2
-  increments: 2
-  spawnCount: 5
+  spawnInterval: 20
+  incrementInterval: 3
+  increments: 5
+  spawnCount: 10
   enemyPrefabs:
   - {fileID: 3262988228526230201, guid: 115c09b34c2b19e4e8818fff934146f0, type: 3}
   - {fileID: 2414541526872326681, guid: cac6b16e83fef71489e20aaa9633eebd, type: 3}
@@ -7525,7 +7525,7 @@ GameObject:
   - component: {fileID: 1609845889}
   - component: {fileID: 1609845888}
   m_Layer: 5
-  m_Name: Button1
+  m_Name: TroopButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
