@@ -60,6 +60,7 @@ Infelizmente, devido a um erro de sincronização e falta de tempo para arranjar
 
 ## Referências
 Código disponibilizado e trabalhado em aula com Prof. Diogo Andrade
+
 Projeto MPWyzards por Prof. Diogo Andrade
 
 Diogo Andrade.(2024, May 15).*Sistemas de Redes para Jogos - Aula 15/05/2024* [Video].Youtube.https://www.youtube.com/watch?v=y7ETO57_kQY&ab_channel=DiogoAndrade
