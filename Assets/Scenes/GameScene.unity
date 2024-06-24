@@ -625,6 +625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualDebug: {fileID: 2092722430}
   debug: 0
+  startAsServer: 0
   playerPrefabs:
   - {fileID: -3356566507629095052, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
   - {fileID: 1522319655309799177, guid: e448ccff0a7e72848a1d179b6d8ff6c2, type: 3}

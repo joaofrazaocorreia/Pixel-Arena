@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerTower : Character
 {
     [SerializeField] private Transform              arm;
-    [SerializeField] private float                  cooldown = 0.25f;
-    [SerializeField] private float                  damage = 10.0f;
+    [SerializeField] private NetworkVariable<float> cooldown = new(0.25f);
+    [SerializeField] private NetworkVariable<float> damage = new(10.0f);
     [SerializeField] private Projectile             shotPrefab;
     [SerializeField] private Projectile             shotPrefabNetwork;
     [SerializeField] private Transform              shootPoint;
@@ -28,7 +28,7 @@ public class PlayerTower : Character
     {
         base.Start();
 
-        cooldownTimer = cooldown;
+        cooldownTimer = cooldown.Value;
     }
 
     void Update()
@@ -77,7 +77,7 @@ public class PlayerTower : Character
             {
                 Shoot(shootPoint.position, shootPoint.rotation);
 
-                cooldownTimer = cooldown;
+                cooldownTimer = cooldown.Value;
             }
         }
 
@@ -94,7 +94,7 @@ public class PlayerTower : Character
         spawnedObject.origin = pos;
         spawnedObject.direction = rotation * Vector3.up;
         spawnedObject.shotTime = NetworkManager.Singleton.ServerTime.TimeAsFloat;
-        spawnedObject.damage = damage;
+        spawnedObject.damage = damage.Value;
         spawnedObject.playerId = networkObject.OwnerClientId;
 
         ShootServerRpc(pos, rotation, spawnedObject.shotTime, networkObject.OwnerClientId, projectileId);
@@ -111,7 +111,7 @@ public class PlayerTower : Character
         spawnedObject.origin = pos;
         spawnedObject.direction = rotation * Vector3.up;
         spawnedObject.shotTime = shotTime;
-        spawnedObject.damage = damage;
+        spawnedObject.damage = damage.Value;
         var netObj = spawnedObject.GetComponent<NetworkObject>();
 
         netObj.Spawn();
@@ -132,19 +132,32 @@ public class PlayerTower : Character
         _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
     }
 
-    public void UpgradeAttack()
+    public void Upgrade(string upgradeName)
     {
-        if(IsLocalPlayer && mana >= attackUPGcost)
-            damage *= 1.15f;
-
-        _mana.Value -= (int) attackUPGcost;
+        UpgradeClientServerRpc(upgradeName);
     }
 
-    public void UpgradeSpeed()
+    [ServerRpc]
+    public void UpgradeClientServerRpc(string upgradeName)
     {
-        if(IsLocalPlayer && mana >= speedUPGcost)
-            cooldown *= 0.85f;
-
-        _mana.Value -= (int) speedUPGcost;
+        switch (upgradeName)
+        {
+            case "speed":
+                if(mana >= speedUPGcost)
+                {
+                    cooldown.Value *= 0.75f;
+                    RemoveMana((int) speedUPGcost);
+                }
+                break;
+            case "attack":
+                if(mana >= attackUPGcost)
+                {
+                    damage.Value *= 1.5f;
+                    RemoveMana((int) attackUPGcost);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

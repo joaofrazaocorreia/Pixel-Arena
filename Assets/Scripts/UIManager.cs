@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -57,8 +57,8 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        buffButton1.GetComponent<Button>().clicked += localPlayer.UpgradeAttack;
-        buffButton2.GetComponent<Button>().clicked += localPlayer.UpgradeSpeed;
+        buffButton1.GetComponent<Button>().onClick.AddListener(() => localPlayer.Upgrade("attack"));
+        buffButton2.GetComponent<Button>().onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
     }
 
     void Update()

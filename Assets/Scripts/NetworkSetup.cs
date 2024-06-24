@@ -22,6 +22,7 @@ public class NetworkSetup : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI visualDebug;
     [SerializeField] private bool debug = true;
+    [SerializeField] private bool startAsServer = false;
     [SerializeField] private PlayerTower[] playerPrefabs;
     [SerializeField] private Transform[] playerSpawnLocations;
     [SerializeField] private ulong playerLimit = 2;
@@ -38,12 +39,12 @@ public class NetworkSetup : MonoBehaviour
         string[] args = System.Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length; i++)
         {
-            if (args[i] == "--server")
+            if (args[i] == "--server" || startAsServer)
             {
                 // --server found, this should be a server application
                 isServer = true;
 
-                if (debug) visualDebug.text += $"args: {args[i]} \n";
+                if (debug && args[i] != null) visualDebug.text += $"args: {args[i]} \n";
             }
         }
 
