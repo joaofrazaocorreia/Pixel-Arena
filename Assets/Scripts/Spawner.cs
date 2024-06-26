@@ -132,8 +132,8 @@ public class Spawner : NetworkBehaviour
 
         for (int i = 0; i < BLUEplayerWeakSpawnCount.Value; i++)
         {   
-            float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
-            float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
+            float x = Random.Range(posBlue.x - 60, posBlue.x + 60);
+            float y = Random.Range(posBlue.y - 60, posBlue.y + 60);
 
             var newEnemy = Instantiate(BLUEPrefabs[1], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
@@ -143,8 +143,8 @@ public class Spawner : NetworkBehaviour
 
         for (int i = 0; i < REDplayerWeakSpawnCount.Value; i++)
         {   
-            float x = Random.Range(posRed.x - 20, posRed.x + 20);
-            float y = Random.Range(posRed.y - 20, posRed.y + 20);
+            float x = Random.Range(posRed.x - 60, posRed.x + 60);
+            float y = Random.Range(posRed.y - 60, posRed.y + 60);
 
             var newEnemy = Instantiate(REDPrefabs[1], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
@@ -154,8 +154,8 @@ public class Spawner : NetworkBehaviour
 
         for (int i = 0; i < BLUEplayerRegularSpawnCount.Value; i++)
         {   
-            float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
-            float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
+            float x = Random.Range(posBlue.x - 60, posBlue.x + 60);
+            float y = Random.Range(posBlue.y - 60, posBlue.y + 60);
 
             var newEnemy = Instantiate(BLUEPrefabs[0], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
@@ -165,8 +165,8 @@ public class Spawner : NetworkBehaviour
 
         for (int i = 0; i < REDplayerRegularSpawnCount.Value; i++)
         {   
-            float x = Random.Range(posRed.x - 20, posRed.x + 20);
-            float y = Random.Range(posRed.y - 20, posRed.y + 20);
+            float x = Random.Range(posRed.x - 60, posRed.x + 60);
+            float y = Random.Range(posRed.y - 60, posRed.y + 60);
 
             var newEnemy = Instantiate(REDPrefabs[0], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
@@ -176,8 +176,8 @@ public class Spawner : NetworkBehaviour
 
         for (int i = 0; i < BLUEplayerTankSpawnCount.Value; i++)
         {   
-            float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
-            float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
+            float x = Random.Range(posBlue.x - 60, posBlue.x + 60);
+            float y = Random.Range(posBlue.y - 60, posBlue.y + 60);
 
             var newEnemy = Instantiate(BLUEPrefabs[2], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
@@ -187,8 +187,8 @@ public class Spawner : NetworkBehaviour
 
         for (int i = 0; i < REDplayerTankSpawnCount.Value; i++)
         {   
-            float x = Random.Range(posRed.x - 20, posRed.x + 20);
-            float y = Random.Range(posRed.y - 20, posRed.y + 20);
+            float x = Random.Range(posRed.x - 60, posRed.x + 60);
+            float y = Random.Range(posRed.y - 60, posRed.y + 60);
 
             var newEnemy = Instantiate(REDPrefabs[2], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();

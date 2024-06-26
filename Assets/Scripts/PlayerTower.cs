@@ -1,5 +1,6 @@
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTower : Character
@@ -10,10 +11,12 @@ public class PlayerTower : Character
     [SerializeField] private Projectile             shotPrefab;
     [SerializeField] private Projectile             shotPrefabNetwork;
     [SerializeField] private Transform              shootPoint;
-    [SerializeField] private float                  manaRegenRate = 1.0f;
+    [SerializeField] private float                  manaRegenRate = 0.5f;
     [SerializeField] private float                  range = 100.0f;
     [SerializeField] private float                  attackUPGcost = 4f;   
-    [SerializeField] private float                  speedUPGcost = 4f;  
+    [SerializeField] private float                  speedUPGcost = 4f; 
+    [SerializeField] private float                  attackIncrement = 2.5f;
+    [SerializeField] private float                  speedIncrementMult = 0.95f; 
 
     private float   cooldownTimer;
     private NetworkVariable<int>      _mana = new(3);
@@ -171,14 +174,14 @@ public class PlayerTower : Character
             case "speed":
                 if(mana >= speedUPGcost)
                 {
-                    cooldown.Value *= 0.75f;
+                    cooldown.Value *= speedIncrementMult;
                     RemoveMana((int) speedUPGcost);
                 }
                 break;
             case "attack":
                 if(mana >= attackUPGcost)
                 {
-                    damage.Value *= 1.5f;
+                    damage.Value += attackIncrement;
                     RemoveMana((int) attackUPGcost);
                 }
                 break;

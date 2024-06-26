@@ -881,12 +881,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
-  speed: 50
+  speed: 30
   arm: {fileID: 573204699421601931}
   cooldown:
-    m_InternalValue: 0.25
+    m_InternalValue: 0.5
   damage:
-    m_InternalValue: 50
+    m_InternalValue: 25
   shotPrefab: {fileID: 8885079783986911859, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
   shotPrefabNetwork: {fileID: 4050359187313195403, guid: 3f8348e807a14304582a943efa0c6a82, type: 3}
   shootPoint: {fileID: 5459142682877947198}

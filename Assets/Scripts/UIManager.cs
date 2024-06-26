@@ -114,5 +114,11 @@ public class UIManager : MonoBehaviour
                     Win();
             }
         }
+
+        else if (localPlayer != null && players.Count() < 2)
+        {
+            if(!waitingScreen.activeSelf)
+                Win();
+        }
     }
 }

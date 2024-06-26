@@ -11329,10 +11329,10 @@ MonoBehaviour:
   spawnTimerDisplays: []
   minPlayers: 2
   timeForFirstSpawn: 2
-  wildSpawnInterval: 30
+  wildSpawnInterval: 25
   playerSpawnInterval: 10
-  incrementInterval: 3
-  increments: 5
+  incrementInterval: 2
+  increments: 7
   wildSpawnCount: 5
   BLUEplayerWeakSpawnCount:
     m_InternalValue: 1
