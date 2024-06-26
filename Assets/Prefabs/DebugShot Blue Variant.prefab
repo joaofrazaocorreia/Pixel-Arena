@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4479686933826150957, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1107309713
+      value: 1637679387
       objectReference: {fileID: 0}
     - target: {fileID: 6753283614204291086, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: m_LocalScale.x
@@ -75,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 6753283614204291086, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316107261787151782, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7316107261787151782, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: m_Color.b
