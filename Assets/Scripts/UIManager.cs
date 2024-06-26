@@ -12,11 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject loseScreen;
     [SerializeField] private GameObject waitingScreen;
     [SerializeField] private GameObject endBG;
-    [SerializeField] private GameObject abilityButton0;
-    [SerializeField] private GameObject abilityButton1;
-    [SerializeField] private GameObject abilityButton2;
-    [SerializeField] private GameObject abilityButton3;
-    [SerializeField] private GameObject abilityButton4;
+    [SerializeField] private Button[] abilityButtons;
     
     private PlayerTower localPlayer;
     private bool win = false;
@@ -60,11 +56,11 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        abilityButton0.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerWeakSpawnCount(localPlayer));
-        abilityButton1.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerRegularSpawnCount(localPlayer));
-        abilityButton2.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerTankSpawnCount(localPlayer));
-        abilityButton3.GetComponent<Button>().onClick.AddListener(() => localPlayer.Upgrade("attack"));
-        abilityButton4.GetComponent<Button>().onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
+        abilityButtons[0].onClick.AddListener(() => spawner.IncreasePlayerWeakSpawnCount(localPlayer));
+        abilityButtons[1].onClick.AddListener(() => spawner.IncreasePlayerRegularSpawnCount(localPlayer));
+        abilityButtons[2].onClick.AddListener(() => spawner.IncreasePlayerTankSpawnCount(localPlayer));
+        abilityButtons[3].onClick.AddListener(() => localPlayer.Upgrade("attack"));
+        abilityButtons[4].onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
     }
 
     void Update()
@@ -87,6 +83,12 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
+        UpdateAbilityIcon(abilityButtons[0], 1);
+        UpdateAbilityIcon(abilityButtons[1], 3);
+        UpdateAbilityIcon(abilityButtons[2], 5);
+        UpdateAbilityIcon(abilityButtons[3], 4);
+        UpdateAbilityIcon(abilityButtons[4], 4);
 
         if (localPlayer != null && players.Count() >= 2)
         {
@@ -120,5 +122,15 @@ public class UIManager : MonoBehaviour
             if(!waitingScreen.activeSelf)
                 Win();
         }
+    }
+
+    private void UpdateAbilityIcon(Button b, int treshold)
+    {
+        float mana = localPlayer.mana;
+
+        if (mana < treshold)
+            b.GetComponent<Image>().color = Color.gray;
+        else
+            b.GetComponent<Image>().color = Color.white;
     }
 }

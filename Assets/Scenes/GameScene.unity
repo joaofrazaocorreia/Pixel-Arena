@@ -942,11 +942,12 @@ MonoBehaviour:
   loseScreen: {fileID: 8011207336116580492}
   waitingScreen: {fileID: 1994871331}
   endBG: {fileID: 1731515871}
-  abilityButton0: {fileID: 1609845886}
-  abilityButton1: {fileID: 708125569}
-  abilityButton2: {fileID: 608923361}
-  abilityButton3: {fileID: 491998527}
-  abilityButton4: {fileID: 878588245}
+  abilityButtons:
+  - {fileID: 1609845888}
+  - {fileID: 708125571}
+  - {fileID: 608923363}
+  - {fileID: 491998529}
+  - {fileID: 878588247}
 --- !u!1 &106342063
 GameObject:
   m_ObjectHideFlags: 0
