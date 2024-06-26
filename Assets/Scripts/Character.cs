@@ -12,6 +12,7 @@ public class Character : NetworkBehaviour
     protected HealthSystem  healthSystem;
     protected int           projectileId = 0;
     protected NetworkObject networkObject;
+    public NetworkObject _NetworkObject { get => networkObject; }
 
     public bool isDead => healthSystem.isDead;
 

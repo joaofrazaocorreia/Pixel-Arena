@@ -15,10 +15,10 @@ public class PlayerTower : Character
     [SerializeField] private float                  attackUPGcost = 3f;   
     [SerializeField] private float                  speedUPGcost = 3f;  
 
-    float   cooldownTimer;
-    NetworkVariable<int>      _mana = new(3);
-    NetworkVariable<float>    _phantomMana = new(3);
-    NetworkVariable<float>    _maxMana = new(10);
+    private float   cooldownTimer;
+    private NetworkVariable<int>      _mana = new(3);
+    private NetworkVariable<float>    _phantomMana = new(3);
+    private NetworkVariable<float>    _maxMana = new(10);
     public float mana => _mana.Value;
     public float phantomMana => _phantomMana.Value;
     public float maxMana => _maxMana.Value;
@@ -122,14 +122,40 @@ public class PlayerTower : Character
 
     public void AddMana(float amount)
     {
-        _phantomMana.Value = Mathf.Clamp(_phantomMana.Value + amount, 0f, maxMana);
-        _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
+        AddManaServerRpc(amount, networkObject.OwnerClientId);
     }
 
     public void RemoveMana(float amount)
     {
-        _phantomMana.Value = Mathf.Clamp(_phantomMana.Value - amount, 0f, maxMana);
-        _mana.Value = (int) Mathf.Floor(_phantomMana.Value);
+        RemoveManaServerRpc(amount, networkObject.OwnerClientId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddManaServerRpc(float amount, ulong clientId)
+    {
+        PlayerTower player = this;
+        foreach(PlayerTower p in FindObjectsOfType<PlayerTower>())
+        {
+            if (p._NetworkObject.OwnerClientId == clientId)
+                player = p;
+        }
+
+        player._phantomMana.Value = Mathf.Clamp(_phantomMana.Value + amount, 0f, maxMana);
+        player._mana.Value = (int) Mathf.Floor(_phantomMana.Value);
+    }
+
+    [ServerRpc]
+    public void RemoveManaServerRpc(float amount, ulong clientId)
+    {
+        PlayerTower player = this;
+        foreach(PlayerTower p in FindObjectsOfType<PlayerTower>())
+        {
+            if (p._NetworkObject.OwnerClientId == clientId)
+                player = p;
+        }
+
+        player._phantomMana.Value = Mathf.Clamp(_phantomMana.Value - amount, 0f, maxMana);
+        player._mana.Value = (int) Mathf.Floor(_phantomMana.Value);
     }
 
     public void Upgrade(string upgradeName)

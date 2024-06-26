@@ -7,16 +7,17 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private Spawner spawner;
+    [SerializeField] private GameObject winScreen;
+    [SerializeField] private GameObject loseScreen;
+    [SerializeField] private GameObject waitingScreen;
+    [SerializeField] private GameObject endBG;
+    [SerializeField] private GameObject abilityButton0;
+    [SerializeField] private GameObject abilityButton1;
+    [SerializeField] private GameObject abilityButton2;
     
-    [SerializeField] GameObject     winScreen;
-    [SerializeField] GameObject     loseScreen;
-    [SerializeField] GameObject     waitingScreen;
-    [SerializeField] GameObject     endBG;
-    [SerializeField] private GameObject buffButton1;
-    [SerializeField] private GameObject buffButton2;
-    
-    PlayerTower localPlayer;
-    bool win = false;
+    private PlayerTower localPlayer;
+    private bool win = false;
 
     public void Quit()
     {
@@ -57,8 +58,9 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        buffButton1.GetComponent<Button>().onClick.AddListener(() => localPlayer.Upgrade("attack"));
-        buffButton2.GetComponent<Button>().onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
+        abilityButton0.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerSpawnCount(localPlayer));
+        abilityButton1.GetComponent<Button>().onClick.AddListener(() => localPlayer.Upgrade("attack"));
+        abilityButton2.GetComponent<Button>().onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
     }
 
     void Update()

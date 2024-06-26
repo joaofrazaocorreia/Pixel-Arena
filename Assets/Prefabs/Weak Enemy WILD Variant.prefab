@@ -24,9 +24,13 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5771553013954479595, guid: 65f7c1d6148d7204fb991aac27a11964, type: 3}
+      propertyPath: _faction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6074456461400689266, guid: 65f7c1d6148d7204fb991aac27a11964, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3870889905
+      value: 3647058698
       objectReference: {fileID: 0}
     - target: {fileID: 6533701243453055237, guid: 65f7c1d6148d7204fb991aac27a11964, type: 3}
       propertyPath: m_Name

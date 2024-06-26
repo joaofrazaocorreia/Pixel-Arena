@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3902197222543030363, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: m_Name
-      value: DebugShot Variant
+      value: DebugShot Blue Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4479686933826150957, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1637679387
+      value: 1107309713
       objectReference: {fileID: 0}
     - target: {fileID: 6753283614204291086, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
       propertyPath: m_LocalScale.x

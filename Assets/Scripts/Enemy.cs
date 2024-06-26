@@ -57,7 +57,7 @@ public class Enemy : Character
             if (Enemy.isDead || Enemy.faction == faction) continue;
 
             float dist = Vector3.Distance(transform.position, Enemy.transform.position);
-            if (dist < minDist)
+            if (dist < minDist && dist < 70)
             {
                 minDist = dist;
                 closestTarget = Enemy;

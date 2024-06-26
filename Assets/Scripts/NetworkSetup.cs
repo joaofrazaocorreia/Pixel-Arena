@@ -39,7 +39,7 @@ public class NetworkSetup : MonoBehaviour
         string[] args = System.Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length; i++)
         {
-            if (args[i] == "--server" || startAsServer)
+            if (args[i] == "--server")
             {
                 // --server found, this should be a server application
                 isServer = true;
@@ -47,6 +47,13 @@ public class NetworkSetup : MonoBehaviour
                 if (debug && args[i] != null) visualDebug.text += $"args: {args[i]} \n";
             }
         }
+
+        #if UNITY_EDITOR
+
+        if(startAsServer)
+            isServer = true;
+
+        #endif
 
         if (isServer)
         {
@@ -242,7 +249,7 @@ public class NetworkSetup : MonoBehaviour
             Launch2();
         }
     }
-    [MenuItem("Tools/Build and Launch (Server + Client)", priority = 20)]
+    [MenuItem("Tools/Build and Launch (Client + Client)", priority = 10)]
     public static void BuildAndLaunch3()
     {
         CloseAll();
@@ -251,13 +258,22 @@ public class NetworkSetup : MonoBehaviour
             Launch3();
         }
     }
-    [MenuItem("Tools/Build and Launch (Server + Client + Client)", priority = 20)]
+    [MenuItem("Tools/Build and Launch (Server + Client)", priority = 20)]
     public static void BuildAndLaunch4()
     {
         CloseAll();
         if (BuildGame())
         {
             Launch4();
+        }
+    }
+    [MenuItem("Tools/Build and Launch (Server + Client + Client)", priority = 20)]
+    public static void BuildAndLaunch5()
+    {
+        CloseAll();
+        if (BuildGame())
+        {
+            Launch5();
         }
     }
     [MenuItem("Tools/Launch (Server) _F11", priority = 30)]
@@ -270,14 +286,20 @@ public class NetworkSetup : MonoBehaviour
     {
         Run("Builds\\Pixel Arena.exe", "");
     }
-    [MenuItem("Tools/Launch (Server + Client)", priority = 40)]
+    [MenuItem("Tools/Launch (Client + Client)", priority = 30)]
     public static void Launch3()
+    {
+        Run("Builds\\Pixel Arena.exe", "");
+        Run("Builds\\Pixel Arena.exe", "");
+    }
+    [MenuItem("Tools/Launch (Server + Client)", priority = 40)]
+    public static void Launch4()
     {
         Run("Builds\\Pixel Arena.exe", "");
         Run("Builds\\Pixel Arena.exe", "--server");
     }
     [MenuItem("Tools/Launch (Server + Client + Client)", priority = 40)]
-    public static void Launch4()
+    public static void Launch5()
     {
         Run("Builds\\Pixel Arena.exe", "");
         Run("Builds\\Pixel Arena.exe", "");

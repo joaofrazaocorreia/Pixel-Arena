@@ -2,14 +2,17 @@ using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Spawner : MonoBehaviour
+public class Spawner : NetworkBehaviour
 {
     [SerializeField] private int   minPlayers = 2;
     [SerializeField] private float timeForFirstSpawn = 2;
-    [SerializeField] private float spawnInterval = 30;
+    [SerializeField] private float wildSpawnInterval = 30;
+    [SerializeField] private float playerSpawnInterval = 5;
     [SerializeField] private float incrementInterval = 2;
     [SerializeField] private int increments = 2;
-    [SerializeField] private int   spawnCount = 5;
+    [SerializeField] private int wildSpawnCount = 5;
+    [SerializeField] private NetworkVariable<int> BLUEplayerSpawnCount = new(1);
+    [SerializeField] private NetworkVariable<int> REDplayerSpawnCount = new(1);
     [SerializeField] private Enemy[] enemyPrefabs;
     [SerializeField] private Enemy[] REDPrefabs;
     [SerializeField] private Transform REDSpawn;
@@ -17,17 +20,17 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Transform BLUESpawn;
     [SerializeField] private float spawnCost = 1f;              
 
-    private float          spawnTimer;
-    private float          incrementCounter;
-    private NetworkManager networkManager;
-    public int            currentPlayers => networkManager.ConnectedClients.Count;
+    private float                wildSpawnTimer;
+    private float                playerSpawnTimer;
+    private float                incrementCounter;
+    public int                   currentPlayers => NetworkManager.Singleton.ConnectedClients.Count;
     
-    PlayerTower localPlayer;
+    private PlayerTower localPlayer;
 
-    void Start()
+    private void Start()
     {
-        networkManager = FindObjectOfType<NetworkManager>();
-        spawnTimer = timeForFirstSpawn;
+        wildSpawnTimer = timeForFirstSpawn;
+        playerSpawnTimer = timeForFirstSpawn;
         incrementCounter = 0;
     }
 
@@ -48,32 +51,41 @@ public class Spawner : MonoBehaviour
             }
         }
 
-        if (networkManager.IsServer || networkManager.IsHost)
+        if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
         {
             if (currentPlayers >= minPlayers)
             {
-                spawnTimer -= Time.deltaTime;
-                if (spawnTimer <= 0.0f)
+                wildSpawnTimer -= Time.deltaTime;
+                if (wildSpawnTimer <= 0.0f)
                 {
-                    SpawnWild();
-                    spawnTimer = spawnInterval;
+                    SpawnWildEnemies();
+                    wildSpawnTimer = wildSpawnInterval;
+                }
+
+                playerSpawnTimer -= Time.deltaTime;
+                if (playerSpawnTimer <= 0.0f)
+                {
+                    SpawnTeamEnemies();
+                    playerSpawnTimer = playerSpawnInterval;
                 }
             }
-            else if (currentPlayers == 0)
+
+            else if (currentPlayers < minPlayers)
             {
                 var enemies = FindObjectsOfType<Enemy>();
                 foreach (var enemy in enemies)
                 {
                     Destroy(enemy.gameObject);
                 }
-                spawnTimer = timeForFirstSpawn;
+                wildSpawnTimer = timeForFirstSpawn;
             }
         }
     }
 
-    void SpawnWild()
+    void SpawnWildEnemies()
     {
-        for (int i = 0; i < spawnCount; i++)
+        Debug.Log(wildSpawnCount + "; " + incrementCounter + "; " + incrementCounter % incrementInterval);
+        for (int i = 0; i < wildSpawnCount; i++)
         {
             float x = Random.Range(-50, 50);
             float y = Random.Range(100, 250);
@@ -88,44 +100,79 @@ public class Spawner : MonoBehaviour
 
         if(++incrementCounter % incrementInterval == 0)
         {
-            spawnCount += increments;
+            wildSpawnCount += increments;
         }
     }
 
-    private void SpawnRed(int amount)
+    void SpawnTeamEnemies()
     {
-        for (int i = 0; i < amount; i++)
-        {
-            Enemy chosenEnemy = REDPrefabs[Random.Range(0, REDPrefabs.Length)];
+        Debug.Log(BLUEplayerSpawnCount.Value + "; " + REDplayerSpawnCount.Value);
 
-            var newEnemy = Instantiate(chosenEnemy, REDSpawn.position, Quaternion.identity);
+        Enemy chosenEnemy;
+        Vector3 posBlue = BLUESpawn.position;
+        Vector3 posRed = REDSpawn.position;
+
+        for (int i = 0; i < BLUEplayerSpawnCount.Value; i++)
+        {   
+            chosenEnemy = BLUEPrefabs[Random.Range(0, BLUEPrefabs.Length)];
+
+            float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
+            float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
+
+            var newEnemy = Instantiate(chosenEnemy, new Vector3(x, y, 0), Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+
+        for (int i = 0; i < REDplayerSpawnCount.Value; i++)
+        {   
+            chosenEnemy = REDPrefabs[Random.Range(0, REDPrefabs.Length)];
+
+            float x = Random.Range(posRed.x - 20, posRed.x + 20);
+            float y = Random.Range(posRed.y - 20, posRed.y + 20);
+
+            var newEnemy = Instantiate(chosenEnemy, new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
 
             networkObject.Spawn();
         }
     }
 
-    private void SpawnBlue(int amount)
+    public void IncreasePlayerSpawnCount(PlayerTower player)
     {
-        for (int i = 0; i < amount; i++)
+        Debug.Log("increasing " + player.faction);
+        if(player.mana >= spawnCost)
         {
-            Enemy chosenEnemy = BLUEPrefabs[Random.Range(0, BLUEPrefabs.Length)];
+            switch(player.faction)
+            {
+                case Faction.Red:
+                    IncreaseRedSpawnCountServerRpc();
+                    Debug.Log("increased red");
+                    break;
+                case Faction.Blue:
+                    IncreaseBlueSpawnCountServerRpc();
+                    Debug.Log("increased blue");
+                    break;
+                default:
+                    break;
+            }
 
-            var newEnemy = Instantiate(chosenEnemy, BLUESpawn.position, Quaternion.identity);
-            var networkObject = newEnemy.GetComponent<NetworkObject>();
-
-            networkObject.Spawn();
+            player.RemoveMana(spawnCost);
         }
     }
 
-    public void SpawnTeamEnemy()
+    [ServerRpc(RequireOwnership = false)]
+    private void IncreaseBlueSpawnCountServerRpc()
     {
-        if (localPlayer.mana >= spawnCost)
-        {
-            if (localPlayer.faction == Faction.Blue) SpawnBlue(1);
-            if (localPlayer.faction == Faction.Red) SpawnRed(1);
+        Debug.Log("Increased Blue");
+        BLUEplayerSpawnCount.Value++;
+    }
 
-            localPlayer.RemoveMana(spawnCost);
-        }
+    [ServerRpc(RequireOwnership = false)]
+    private void IncreaseRedSpawnCountServerRpc()
+    {
+        Debug.Log("Increased Red");
+        REDplayerSpawnCount.Value++;
     }
 }

@@ -35,10 +35,11 @@ public class Projectile : NetworkBehaviour
             foreach (var hit in hits)
             {
                 var healthSystem = hit.collider.GetComponent<HealthSystem>();
+                var enemy = hit.collider.GetComponent<Enemy>();
                 if ((healthSystem != null) && (!healthSystem.isDead))
                 {
                     // Check factions
-                    if (healthSystem.faction != faction)
+                    if (healthSystem.faction != faction && (enemy == null || enemy.faction != faction))
                     {
                         // Run damage
                         healthSystem.DealDamage(damage);

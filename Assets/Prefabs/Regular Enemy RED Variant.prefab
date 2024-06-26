@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5791224744220241290, guid: 98a338058eb3c104a8fa4e908f15f0bb, type: 3}
+      propertyPath: _faction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8860855618164299178, guid: 98a338058eb3c104a8fa4e908f15f0bb, type: 3}
       propertyPath: damage
       value: 120

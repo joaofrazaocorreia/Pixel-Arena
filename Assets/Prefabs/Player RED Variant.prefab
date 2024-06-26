@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: faction
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3356566507629095052, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
+      propertyPath: shotPrefab
+      value: 
+      objectReference: {fileID: 8695757900688739025, guid: c58f4c5ef24c5774eb31177e9c00c968, type: 3}
+    - target: {fileID: -3356566507629095052, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
+      propertyPath: shotPrefabNetwork
+      value: 
+      objectReference: {fileID: 9125095858405781225, guid: 33dc0ccaf23c62c41b214c78aad07e89, type: 3}
     - target: {fileID: 736994844977823100, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -86,6 +94,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7028653210196805844, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981255433782362651, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
+      propertyPath: _faction
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8053264972973658697, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
