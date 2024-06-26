@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 6842813728327159747}
   - component: {fileID: 6528642974290181854}
   - component: {fileID: 684771826370019325}
+  - component: {fileID: 7990276056263542353}
   m_Layer: 5
   m_Name: SpawnTimer
   m_TagString: Untagged
@@ -235,6 +236,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7990276056263542353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540618095530277622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 555adcd470d266a40b8114d7bb5df799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTime: 10
+  timerDisplay: {fileID: 1540618095530277622}
+  timerFill: {fileID: 6595667907923550149}
 --- !u!1 &1588452077066840834
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +397,7 @@ GameObject:
   - component: {fileID: 4294216994022535094}
   - component: {fileID: 6595667907923550149}
   m_Layer: 5
-  m_Name: HPFill
+  m_Name: Timerfill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -876,8 +892,8 @@ MonoBehaviour:
   shootPoint: {fileID: 5459142682877947198}
   manaRegenRate: 0.5
   range: 100
-  attackUPGcost: 3
-  speedUPGcost: 3
+  attackUPGcost: 4
+  speedUPGcost: 4
 --- !u!95 &1753974534352905675
 Animator:
   serializedVersion: 5

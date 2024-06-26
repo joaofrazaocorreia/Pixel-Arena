@@ -625,7 +625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualDebug: {fileID: 2092722430}
   debug: 0
-  startAsServer: 0
+  startAsServer: 1
   playerPrefabs:
   - {fileID: -3356566507629095052, guid: 95d51a21ba116044e8c15fc6a4b10d59, type: 3}
   - {fileID: 1522319655309799177, guid: e448ccff0a7e72848a1d179b6d8ff6c2, type: 3}
@@ -11326,11 +11326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec49c3a36a82f4749919b117c049775a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
+  spawnTimerDisplays: []
   minPlayers: 2
   timeForFirstSpawn: 2
   wildSpawnInterval: 30
-  playerSpawnInterval: 5
+  playerSpawnInterval: 10
   incrementInterval: 3
   increments: 5
   wildSpawnCount: 5
@@ -11360,7 +11360,9 @@ MonoBehaviour:
   - {fileID: 1315425720017806043, guid: 65f7c1d6148d7204fb991aac27a11964, type: 3}
   - {fileID: 1822256860682784620, guid: 0bf274e76115c574bacb7ecf61399a82, type: 3}
   BLUESpawn: {fileID: 810599384}
-  spawnCost: 1
+  spawnWeakCost: 1
+  spawnRegularCost: 3
+  spawnTankCost: 5
 --- !u!114 &6084619932270092110
 MonoBehaviour:
   m_ObjectHideFlags: 0

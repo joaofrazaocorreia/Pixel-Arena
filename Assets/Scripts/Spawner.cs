@@ -1,14 +1,15 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Spawner : NetworkBehaviour
 {
-    [SerializeField] private UIManager uiManager;
+    [SerializeField] private List<SpawnTimerDisplay> spawnTimerDisplays; 
     [SerializeField] private int   minPlayers = 2;
     [SerializeField] private float timeForFirstSpawn = 2;
     [SerializeField] private float wildSpawnInterval = 30;
-    [SerializeField] private float playerSpawnInterval = 5;
+    [SerializeField] private float playerSpawnInterval = 10;
     [SerializeField] private float incrementInterval = 2;
     [SerializeField] private int increments = 2;
     [SerializeField] private int wildSpawnCount = 5;
@@ -60,6 +61,16 @@ public class Spawner : NetworkBehaviour
 
         if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
         {
+            if(spawnTimerDisplays.Count < minPlayers)
+            {
+                spawnTimerDisplays = new List<SpawnTimerDisplay>();
+                
+                foreach(PlayerTower p in FindObjectsOfType<PlayerTower>())
+                {
+                    spawnTimerDisplays.Add(p.GetComponentInChildren<SpawnTimerDisplay>());
+                }
+            }
+
             if (currentPlayers >= minPlayers)
             {
                 wildSpawnTimer -= Time.deltaTime;
@@ -75,6 +86,9 @@ public class Spawner : NetworkBehaviour
                     SpawnTeamEnemies();
                     playerSpawnTimer = playerSpawnInterval;
                 }
+
+                foreach (SpawnTimerDisplay s in spawnTimerDisplays)
+                    s.UpdateTimer(playerSpawnTimer);
             }
 
             else if (currentPlayers < minPlayers)

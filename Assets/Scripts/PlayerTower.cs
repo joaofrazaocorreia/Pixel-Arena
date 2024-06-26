@@ -12,8 +12,8 @@ public class PlayerTower : Character
     [SerializeField] private Transform              shootPoint;
     [SerializeField] private float                  manaRegenRate = 1.0f;
     [SerializeField] private float                  range = 100.0f;
-    [SerializeField] private float                  attackUPGcost = 3f;   
-    [SerializeField] private float                  speedUPGcost = 3f;  
+    [SerializeField] private float                  attackUPGcost = 4f;   
+    [SerializeField] private float                  speedUPGcost = 4f;  
 
     private float   cooldownTimer;
     private NetworkVariable<int>      _mana = new(3);
