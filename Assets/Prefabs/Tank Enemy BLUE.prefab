@@ -75,7 +75,7 @@ MonoBehaviour:
   faction: 0
   speed: 10
   cooldown: 2
-  damage: 150
+  damage: 220
   range: 10
 --- !u!212 &2082379749347560903
 SpriteRenderer:

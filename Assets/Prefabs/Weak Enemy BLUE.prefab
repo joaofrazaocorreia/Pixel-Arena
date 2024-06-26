@@ -310,7 +310,7 @@ MonoBehaviour:
   faction: 0
   speed: 50
   cooldown: 0.5
-  damage: 80
+  damage: 40
   range: 15
 --- !u!212 &2306887661411264179
 SpriteRenderer:
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _faction: 0
-  maxHealth: 550
+  maxHealth: 160
   healthDisplay: {fileID: 4552758325916906391}
   fill: {fileID: 2024391588166497297}
   healthText: {fileID: 0}

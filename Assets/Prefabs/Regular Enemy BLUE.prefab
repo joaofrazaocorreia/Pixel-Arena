@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: 0
   speed: 20
-  cooldown: 1
+  cooldown: 0.8
   damage: 120
   range: 15
 --- !u!212 &3729176311674514317

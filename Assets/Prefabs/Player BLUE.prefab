@@ -844,7 +844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 481021781
+  GlobalObjectIdHash: 3151191948
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   shotPrefab: {fileID: 8885079783986911859, guid: 4a3e9700082a7c54297a06ebe318a765, type: 3}
   shotPrefabNetwork: {fileID: 4050359187313195403, guid: 3f8348e807a14304582a943efa0c6a82, type: 3}
   shootPoint: {fileID: 5459142682877947198}
-  manaRegenRate: 0.75
+  manaRegenRate: 0.5
   range: 100
   attackUPGcost: 3
   speedUPGcost: 3

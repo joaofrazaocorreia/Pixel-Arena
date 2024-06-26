@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 
 public class Spawner : NetworkBehaviour
 {
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private int   minPlayers = 2;
     [SerializeField] private float timeForFirstSpawn = 2;
     [SerializeField] private float wildSpawnInterval = 30;
@@ -11,14 +12,20 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private float incrementInterval = 2;
     [SerializeField] private int increments = 2;
     [SerializeField] private int wildSpawnCount = 5;
-    [SerializeField] private NetworkVariable<int> BLUEplayerSpawnCount = new(1);
-    [SerializeField] private NetworkVariable<int> REDplayerSpawnCount = new(1);
+    [SerializeField] private NetworkVariable<int> BLUEplayerWeakSpawnCount = new(1);
+    [SerializeField] private NetworkVariable<int> REDplayerWeakSpawnCount = new(1);
+    [SerializeField] private NetworkVariable<int> BLUEplayerRegularSpawnCount = new(0);
+    [SerializeField] private NetworkVariable<int> REDplayerRegularSpawnCount = new(0);
+    [SerializeField] private NetworkVariable<int> BLUEplayerTankSpawnCount = new(0);
+    [SerializeField] private NetworkVariable<int> REDplayerTankSpawnCount = new(0);
     [SerializeField] private Enemy[] enemyPrefabs;
     [SerializeField] private Enemy[] REDPrefabs;
     [SerializeField] private Transform REDSpawn;
     [SerializeField] private Enemy[] BLUEPrefabs;
     [SerializeField] private Transform BLUESpawn;
-    [SerializeField] private float spawnCost = 1f;              
+    [SerializeField] private float spawnWeakCost = 1f;
+    [SerializeField] private float spawnRegularCost = 3f;
+    [SerializeField] private float spawnTankCost = 5f;              
 
     private float                wildSpawnTimer;
     private float                playerSpawnTimer;
@@ -106,73 +113,184 @@ public class Spawner : NetworkBehaviour
 
     void SpawnTeamEnemies()
     {
-        Debug.Log(BLUEplayerSpawnCount.Value + "; " + REDplayerSpawnCount.Value);
-
-        Enemy chosenEnemy;
         Vector3 posBlue = BLUESpawn.position;
         Vector3 posRed = REDSpawn.position;
 
-        for (int i = 0; i < BLUEplayerSpawnCount.Value; i++)
+        for (int i = 0; i < BLUEplayerWeakSpawnCount.Value; i++)
         {   
-            chosenEnemy = BLUEPrefabs[Random.Range(0, BLUEPrefabs.Length)];
-
             float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
             float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
 
-            var newEnemy = Instantiate(chosenEnemy, new Vector3(x, y, 0), Quaternion.identity);
+            var newEnemy = Instantiate(BLUEPrefabs[1], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
 
             networkObject.Spawn();
         }
 
-        for (int i = 0; i < REDplayerSpawnCount.Value; i++)
+        for (int i = 0; i < REDplayerWeakSpawnCount.Value; i++)
         {   
-            chosenEnemy = REDPrefabs[Random.Range(0, REDPrefabs.Length)];
-
             float x = Random.Range(posRed.x - 20, posRed.x + 20);
             float y = Random.Range(posRed.y - 20, posRed.y + 20);
 
-            var newEnemy = Instantiate(chosenEnemy, new Vector3(x, y, 0), Quaternion.identity);
+            var newEnemy = Instantiate(REDPrefabs[1], new Vector3(x, y, 0), Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+
+        for (int i = 0; i < BLUEplayerRegularSpawnCount.Value; i++)
+        {   
+            float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
+            float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
+
+            var newEnemy = Instantiate(BLUEPrefabs[0], new Vector3(x, y, 0), Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+
+        for (int i = 0; i < REDplayerRegularSpawnCount.Value; i++)
+        {   
+            float x = Random.Range(posRed.x - 20, posRed.x + 20);
+            float y = Random.Range(posRed.y - 20, posRed.y + 20);
+
+            var newEnemy = Instantiate(REDPrefabs[0], new Vector3(x, y, 0), Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+
+        for (int i = 0; i < BLUEplayerTankSpawnCount.Value; i++)
+        {   
+            float x = Random.Range(posBlue.x - 20, posBlue.x + 20);
+            float y = Random.Range(posBlue.y - 20, posBlue.y + 20);
+
+            var newEnemy = Instantiate(BLUEPrefabs[2], new Vector3(x, y, 0), Quaternion.identity);
+            var networkObject = newEnemy.GetComponent<NetworkObject>();
+
+            networkObject.Spawn();
+        }
+
+        for (int i = 0; i < REDplayerTankSpawnCount.Value; i++)
+        {   
+            float x = Random.Range(posRed.x - 20, posRed.x + 20);
+            float y = Random.Range(posRed.y - 20, posRed.y + 20);
+
+            var newEnemy = Instantiate(REDPrefabs[2], new Vector3(x, y, 0), Quaternion.identity);
             var networkObject = newEnemy.GetComponent<NetworkObject>();
 
             networkObject.Spawn();
         }
     }
 
-    public void IncreasePlayerSpawnCount(PlayerTower player)
+    public void IncreasePlayerWeakSpawnCount(PlayerTower player)
     {
         Debug.Log("increasing " + player.faction);
-        if(player.mana >= spawnCost)
+        if(player.mana >= spawnWeakCost)
         {
             switch(player.faction)
             {
                 case Faction.Red:
-                    IncreaseRedSpawnCountServerRpc();
-                    Debug.Log("increased red");
+                    IncreaseRedWeakSpawnCountServerRpc();
+                    Debug.Log("increased weak red");
                     break;
                 case Faction.Blue:
-                    IncreaseBlueSpawnCountServerRpc();
-                    Debug.Log("increased blue");
+                    IncreaseBlueWeakSpawnCountServerRpc();
+                    Debug.Log("increased weak blue");
                     break;
                 default:
                     break;
             }
 
-            player.RemoveMana(spawnCost);
+            player.RemoveMana(spawnWeakCost);
+        }
+    }
+
+    public void IncreasePlayerRegularSpawnCount(PlayerTower player)
+    {
+        Debug.Log("increasing " + player.faction);
+        if(player.mana >= spawnRegularCost)
+        {
+            switch(player.faction)
+            {
+                case Faction.Red:
+                    IncreaseRedRegularSpawnCountServerRpc();
+                    Debug.Log("increased reg red");
+                    break;
+                case Faction.Blue:
+                    IncreaseBlueRegularSpawnCountServerRpc();
+                    Debug.Log("increased ref blue");
+                    break;
+                default:
+                    break;
+            }
+
+            player.RemoveMana(spawnRegularCost);
+        }
+    }
+
+    public void IncreasePlayerTankSpawnCount(PlayerTower player)
+    {
+        Debug.Log("increasing " + player.faction);
+        if(player.mana >= spawnTankCost)
+        {
+            switch(player.faction)
+            {
+                case Faction.Red:
+                    IncreaseRedTankSpawnCountServerRpc();
+                    Debug.Log("increased red tank");
+                    break;
+                case Faction.Blue:
+                    IncreaseBlueTankSpawnCountServerRpc();
+                    Debug.Log("increased blue tank");
+                    break;
+                default:
+                    break;
+            }
+
+            player.RemoveMana(spawnTankCost);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void IncreaseBlueSpawnCountServerRpc()
+    private void IncreaseBlueWeakSpawnCountServerRpc()
     {
         Debug.Log("Increased Blue");
-        BLUEplayerSpawnCount.Value++;
+        BLUEplayerWeakSpawnCount.Value++;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void IncreaseRedSpawnCountServerRpc()
+    private void IncreaseRedWeakSpawnCountServerRpc()
     {
         Debug.Log("Increased Red");
-        REDplayerSpawnCount.Value++;
+        REDplayerWeakSpawnCount.Value++;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void IncreaseBlueRegularSpawnCountServerRpc()
+    {
+        Debug.Log("Increased Blue");
+        BLUEplayerRegularSpawnCount.Value++;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void IncreaseRedRegularSpawnCountServerRpc()
+    {
+        Debug.Log("Increased Red");
+        REDplayerRegularSpawnCount.Value++;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void IncreaseBlueTankSpawnCountServerRpc()
+    {
+        Debug.Log("Increased Blue");
+        BLUEplayerTankSpawnCount.Value++;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void IncreaseRedTankSpawnCountServerRpc()
+    {
+        Debug.Log("Increased Red");
+        REDplayerTankSpawnCount.Value++;
     }
 }

@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject abilityButton0;
     [SerializeField] private GameObject abilityButton1;
     [SerializeField] private GameObject abilityButton2;
+    [SerializeField] private GameObject abilityButton3;
+    [SerializeField] private GameObject abilityButton4;
     
     private PlayerTower localPlayer;
     private bool win = false;
@@ -58,9 +60,11 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        abilityButton0.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerSpawnCount(localPlayer));
-        abilityButton1.GetComponent<Button>().onClick.AddListener(() => localPlayer.Upgrade("attack"));
-        abilityButton2.GetComponent<Button>().onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
+        abilityButton0.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerWeakSpawnCount(localPlayer));
+        abilityButton1.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerRegularSpawnCount(localPlayer));
+        abilityButton2.GetComponent<Button>().onClick.AddListener(() => spawner.IncreasePlayerTankSpawnCount(localPlayer));
+        abilityButton3.GetComponent<Button>().onClick.AddListener(() => localPlayer.Upgrade("attack"));
+        abilityButton4.GetComponent<Button>().onClick.AddListener(() =>  localPlayer.Upgrade("speed"));
     }
 
     void Update()
