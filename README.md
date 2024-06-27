@@ -25,8 +25,8 @@ Cada jogador tem também uma barra de Mana, visível na parte inferior do ecrã,
 - 1 Mana - Aumentar o número de inimigos "fracos" que nascem em cada grupo de tropas aliadas por 1
 - 3 Mana - Aumentar o número de inimigos "normais" que nascem em cada grupo de tropas aliadas por 1
 - 5 Mana - Aumentar o número de inimigos "tanques" que nascem em cada grupo de tropas aliadas por 1
-- 3 Mana - Aumentar o dano de cada tiro da base (tiros dão mais 7.5 pontos de dano por cada melhoramento);
-- 3 Mana - Reduzir o tempo entre os disparos da base (tiros 5% mais rápidos por cada melhoramento);
+- 3 Mana - Aumentar o dano de cada tiro da base (tiros dão mais 15 pontos de dano por cada melhoramento);
+- 3 Mana - Reduzir o tempo entre os disparos da base (tiros 15% mais rápidos por cada melhoramento);
 
 ![imagem da mana e das habilidades](https://i.postimg.cc/mgxYVKNW/4.png)
 
