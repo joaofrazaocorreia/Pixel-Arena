@@ -44,6 +44,7 @@ public class Projectile : NetworkBehaviour
                         // Run damage
                         healthSystem.DealDamage(damage);
                         Destroy(gameObject);
+                        break;
                     }
                 }
             }

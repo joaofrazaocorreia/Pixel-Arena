@@ -25,6 +25,7 @@ public class PlayerTower : Character
     public float mana => _mana.Value;
     public float phantomMana => _phantomMana.Value;
     public float maxMana => _maxMana.Value;
+    public float Health => healthSystem.Health;
 
 
     protected override void Start()

@@ -14,6 +14,7 @@ public class HealthSystem : NetworkBehaviour
 
 
     private NetworkVariable<float>  health = new(100);
+    public float Health => health.Value;
     private Flasher                 flasher;
 
     public bool isDead => health.Value <= 0.0f;
@@ -66,7 +67,6 @@ public class HealthSystem : NetworkBehaviour
     {
         float oldValue = health.Value;
         health.Value = Mathf.Clamp(health.Value - damage, 0, maxHealth);
-        Debug.Log(gameObject.name + " was damaged for " + damage + " damage");
 
         RunDisplay(oldValue, health.Value);
 
