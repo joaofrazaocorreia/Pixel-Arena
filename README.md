@@ -43,7 +43,7 @@ Por fim, quando um jogador perde toda a vida na sua base ou quando sai do jogo/f
 Foi utilizada a biblioteca Netcode para GameObjects (NGO) do Unity para a implementação do projeto, tendo-se seguido uma abordagem orientada para se jogar em LAN. Utilizou-se um componente Network Manager para definir e tratar de todas as mensagens entre clientes e servidor, bem como um Unity Transport para fazer a comunicação entre ambos, e um NetworkSetup para inicializar os diversos valores e métodos que vão ser corridos no servidor e nos clientes, especialmente as corrotinas StartAsClientCR, para inicializar uma sessão como um cliente que se pretende ligar a um servidor do jogo, e StartAsServerCR, para definir que essa instância irá ser o servidor onde os clientes se poderão ligar. Alguns elementos do UI foram adicionalmente desligados no servidor para desamparar a vista do jogo, embora não seja obrigatoriamente pretendido que o servidor tenha interface visual.
 
 ![imagem dos métodos de NetworkSetup](./Images/StartAsServerCR.png)
-![imagem dos métodos de NetworkSetup](./Images/StartAsClientCR_.png)
+![imagem dos métodos de NetworkSetup](./Images/StartAsClientCR.png)
 
 As entidades do jogo (players e inimigos) são subclasses que descendem da classe Character, a qual requer um componente de HealthSystem ao ser inicializado, garantindo que todos os Characters terão um sistema de vida associado. Character trata de inicializar os parâmetros comum a todas as personagens, como as suas animações, vida, NetworkObject (permitindo que este seja tratado como uma entidade de rede e faça parte da dinâmica de multiplayer), e Faction (ajudando a distinguir a que jogador pertence esse personagem), enquanto que Enemy apenas regista o movimento e os ataques de cada inimigo, e o PlayerTower (a base do jogador) inicializa os seus tiros e respetivas propriedades, mana, e custo das habilidades. Nota-se que a classe Character extende NetworkBehaviour, permitindo o uso de NetworkVariables.
 
@@ -55,11 +55,11 @@ Também os tiros têm a sua própria inicialização, não só guardando os seus
 
 Tem-se também a classe Spawner, que está encarregue de criar os vários prefabs dos inimigos. Esta classe vai aumentado o número de inimigos "Selvagens" que cria usando os Increments à medida que o jogo progride, mas trata também de instanciar os prefabs dos inimigos pertencentes às facções dos respetivos jogadores (Azuis e Vermelhos), que são criados progressivamente nas suas respetivas bases, de forma semelhante aos Selvagens mas usando um temporizador diferente. Todos os inimigos de equipas diferentes atacam-se entre si, incluindo os selvagens também, e por isso os jogadores têm de usar as suas habilidades para se defenderem não só dos inimigos da outra equipa, mas também dos selvagens. As primeiras três habilidades dos jogadores aumentam o número de cada tipo de inimigo criado em cada geração de inimigos das equipas (Fracos, Normais ou Tanques) e estes números são permanentes, portanto os jogadores podem ir aumentando a quantidade de tropas da sua equipa ao aumentar o número destas que é criado a cada geração.
 
-![imagem dos parâmetros do spawner](./Images/Spawner_.png)
+![imagem dos parâmetros do spawner](./Images/Spawner.png)
 
 Por fim temos a classe Enemy, que também extendem a classe Character tal como os jogadores, porém as entidades desta classe conseguem mexer-se pelo mapa, seguindo sempre o inimigo de uma equipa adversária mais próximo desde que esteja a menos de 100 unidades de distância. Se não houver nenhum inimigo nesse raio, então esta classe segue a base adversária mais próxima (independentemente da distância). Também a forma de ataque é diferente, dando dano quando se chegam perto o suficiente em vez de instanciar Projectiles.
 
-![imagem dos parâmetros e escolha de alvos de Enemy](./Images/Enemy_.png)
+![imagem dos parâmetros e escolha de alvos de Enemy](./Images/Enemy.png)
 
 ## Diagrama de Arquitetura de Redes
 ![diagrama de arquitetura de redes](./Images/NetworkArchitecture.png)
@@ -73,12 +73,12 @@ Quando um cliente se connecta ao servidor são enviados cerca de 255 bytes e rec
 Quando um jogador é instanciado no jogo são enviados cerca de 158 bytes e recebidos cerca de 152 bytes (64 B + 88 B)
 
 ![bandwith de connecção](./Images/BandwithConnect.png)
-![bandwith de connecção](./Images/BandwithConnectReceived_.png)
+![bandwith de connecção](./Images/BandwithConnectReceived.png)
 
 Quando o jogo começa são enviados cerca de 78 bytes e recebidos cerca de 236 bytes
 (Alguns destes bytes pertencem ainda à inicialização do segundo jogador, pois o jogo começa pouco depois de este se connectar)
 
-![bandwith de começo do jogo](./Images/BandwithStartGame_.png)
+![bandwith de começo do jogo](./Images/BandwithStartGame.png)
 
 A cada atualização dos dados do jogo (aumento da mana e atualização do temporizador) são enviados cerca de 66 bytes e recebidos cerca de 48 bytes
 
