@@ -32,11 +32,11 @@ Cada jogador tem também uma barra de Mana, visível na parte inferior do ecrã,
 
 O objetivo do jogo é sobreviver mais tempo que o oponente, gerindo as habilidades de forma inteligente para preservar a vida da base e gerir o número de tropas aliadas que vão sendo criadas para atacar a base rival ou defender a própria. O jogo pode ser jogado em LAN ao utilizar uma instância do jogo para se executar como servidor, e as restantes podem-se ligar ao servidor como clientes para iniciarem uma partida. É importante notar que apenas dois jogadores se podem juntar à partida, e quaisqueres ligações adicionais poderão apenas assistir ao jogo. O jogo apenas começa quando o segundo jogador entrar no servidor do jogo, havendo um menu de espera no ecrã do primeiro enquanto o segundo jogador se connecta.
 
-![imagem do menu de espera](./Images/WaitingScreen.png)
+![imagem do menu de espera](./Images/Waiting.png)
 
 Por fim, quando um jogador perde toda a vida na sua base ou quando sai do jogo/fecha a janela, esse jogador perde e o seu adversário ganha. Aí os jogadores podem sair do servidor e voltar a criar um novo para jogar outra vez. Existe também um temporizador no canto superior esquerdo que limita o tempo que uma partida pode durar. Se nenhum jogador tiver ganho até o tempo chegar a 0, ganha o jogador que tiver mais vida.
 
-![imagem do temporizador](Timer)
+![imagem do temporizador](./Images/Timer.png)
 ![imagem do menu de vitória e derrota](./Images/WinAndLose.png)
 
 #### Implementações
